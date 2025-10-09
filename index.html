@@ -1,0 +1,1178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ergonomic Assessment - Fresh Frontiers Consultancy</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<style>
+  body { 
+    font-family: Helvetica, Arial, sans-serif;
+    font-weight: 400;
+    box-sizing: border-box;
+  }
+  .brand-title { 
+    font-family: 'Barlow Condensed', sans-serif; 
+    font-weight: 700;
+  }
+  .brand-heading { 
+    font-family: Helvetica, Arial, sans-serif; 
+    font-weight: bold;
+  }
+  .brand-primary { color: #0072ce; }
+  .brand-primary-bg { background-color: #0072ce; color: white; }
+  .brand-secondary { color: #22a96a; }
+  .brand-secondary-bg { background-color: #22a96a; color: white; }
+  .brand-accent-bg { background-color: #f2f2f2; }
+  .step { display: none; }
+  .step.active { display: block; }
+  .task-section { border: 2px solid #0072ce; border-radius: 8px; margin-bottom: 16px; }
+  .task-header { background-color: #f2f2f2; padding: 12px; border-bottom: 2px solid #0072ce; }
+  .signature-pad { border: 2px solid #0072ce; background: white; }
+  h1, h2, h3, h4 { font-family: Helvetica, Arial, sans-serif; font-weight: bold; }
+  .btn-primary { background-color: #0072ce; color: white; }
+  .btn-primary:hover { background-color: #005ba3; }
+  .btn-secondary { background-color: #22a96a; color: white; }
+  .btn-secondary:hover { background-color: #1a8755; }
+</style>
+</head>
+<body class="bg-gray-100 p-4">
+
+<div class="max-w-6xl mx-auto bg-white p-6 rounded shadow">
+  <div class="text-center mb-6">
+    <h1 class="text-4xl brand-title brand-primary mb-2">FRESH FRONTIERS CONSULTANCY</h1>
+    <h2 class="text-xl brand-heading text-gray-700">Ergonomic Assessment Platform</h2>
+  </div>
+
+  <form id="ergonomicForm">
+
+    <!-- Part 1: Client Intake Form -->
+    <div class="step active" id="step1">
+      <h2 class="brand-heading text-xl mb-4 brand-primary">Client Intake Form</h2>
+      <div class="grid gap-4 md:grid-cols-2">
+        <input type="text" placeholder="Full Name" name="name" class="p-3 border rounded" required>
+        <input type="email" placeholder="Email Address" name="email" class="p-3 border rounded">
+        <input type="tel" placeholder="Contact Number" name="contactNumber" class="p-3 border rounded">
+        <select name="gender" class="p-3 border rounded">
+          <option value="">Select Gender</option>
+          <option>Male</option>
+          <option>Female</option>
+          <option>Other</option>
+        </select>
+        <input type="number" placeholder="Age" name="age" class="p-3 border rounded">
+        <input type="number" placeholder="Height (cm)" name="height" class="p-3 border rounded">
+        <input type="number" placeholder="Weight (kg)" name="weight" class="p-3 border rounded">
+        <select name="handDominance" class="p-3 border rounded">
+          <option value="">Hand Dominance</option>
+          <option>Right</option>
+          <option>Left</option>
+        </select>
+        <select name="eyeDominance" class="p-3 border rounded">
+          <option value="">Eye Dominance</option>
+          <option>Right</option>
+          <option>Left</option>
+        </select>
+        <input type="text" placeholder="Job Title/Role" name="jobTitle" class="p-3 border rounded">
+        <select name="shiftTiming" class="p-3 border rounded">
+          <option value="">Shift Timing</option>
+          <option>Morning</option>
+          <option>Evening</option>
+          <option>Overnight</option>
+        </select>
+        <input type="text" placeholder="Work Location" name="workLocation" class="p-3 border rounded">
+      </div>
+
+      <h3 class="brand-heading text-lg mt-6 mb-3 brand-primary">Personal Factors</h3>
+      <div class="grid gap-4 md:grid-cols-2">
+        <textarea placeholder="Medical History" name="medicalHistory" class="p-3 border rounded h-24"></textarea>
+        <textarea placeholder="Physical Activity" name="physicalActivity" class="p-3 border rounded h-24"></textarea>
+        <textarea placeholder="Sleep Patterns" name="sleepPatterns" class="p-3 border rounded h-24"></textarea>
+        <textarea placeholder="Vision Assistance" name="visionAssistance" class="p-3 border rounded h-24"></textarea>
+      </div>
+
+      <h3 class="brand-heading text-lg mt-6 mb-3 brand-primary">Environmental Factors</h3>
+      <div class="grid gap-4 md:grid-cols-2">
+        <textarea placeholder="Illumination Factors" name="illumination" class="p-3 border rounded h-24"></textarea>
+        <textarea placeholder="Noise Factors" name="noise" class="p-3 border rounded h-24"></textarea>
+        <textarea placeholder="Temperature Factors" name="temperature" class="p-3 border rounded h-24"></textarea>
+        <textarea placeholder="Vibration" name="vibration" class="p-3 border rounded h-24"></textarea>
+      </div>
+
+      <div class="flex gap-4 mt-6">
+        <button type="button" onclick="nextStep()" class="btn-primary p-3 rounded font-semibold">Next</button>
+        <button type="button" onclick="saveProgress()" class="btn-secondary px-6 py-3 rounded font-semibold">Save Progress</button>
+        <button type="button" onclick="startFresh()" class="bg-red-600 text-white px-6 py-3 rounded font-semibold hover:bg-red-700">Start Fresh</button>
+      </div>
+    </div>
+
+    <!-- Assessment Type Selection -->
+    <div class="step" id="step0">
+      <h2 class="brand-heading text-xl mb-4 brand-primary">Assessment Type</h2>
+      
+      <div class="mb-6">
+        <h3 class="brand-heading text-lg mb-3">Select Assessment Types:</h3>
+        <div class="grid gap-3 md:grid-cols-3">
+          <label class="flex items-center p-3 border rounded cursor-pointer hover:bg-gray-50">
+            <input type="checkbox" name="assessmentTypes" value="mooreGarg" class="mr-2">
+            <span>Moore-Garg Strain Index</span>
+          </label>
+          <label class="flex items-center p-3 border rounded cursor-pointer hover:bg-gray-50">
+            <input type="checkbox" name="assessmentTypes" value="reba" class="mr-2">
+            <span>REBA Assessment</span>
+          </label>
+          <label class="flex items-center p-3 border rounded cursor-pointer hover:bg-gray-50">
+            <input type="checkbox" name="assessmentTypes" value="rula" class="mr-2">
+            <span>RULA Assessment</span>
+          </label>
+        </div>
+      </div>
+
+      <div class="mb-6">
+        <h3 class="brand-heading text-lg mb-3">Number of Tasks to Assess:</h3>
+        <select name="taskCount" id="taskCount" class="p-2 border rounded w-full max-w-xs">
+          <option value="1">1 Task</option>
+          <option value="2">2 Tasks</option>
+          <option value="3">3 Tasks</option>
+        </select>
+      </div>
+
+      <div class="flex gap-4 mt-6">
+        <button type="button" onclick="prevStep()" class="bg-gray-500 text-white p-3 rounded font-semibold hover:bg-gray-600">Previous</button>
+        <button type="button" onclick="configureAssessment()" class="btn-primary p-3 rounded font-semibold">Start Assessment</button>
+      </div>
+    </div>
+
+    <!-- Recommendations -->
+    <div class="step" id="stepRecommendations">
+      <h2 class="brand-heading text-xl mb-4 brand-primary">Recommendations & Comments</h2>
+      
+      <div class="mb-6">
+        <h3 class="brand-heading text-lg mb-3 brand-primary">Recommendations</h3>
+        <div id="autoRecommendations" class="brand-accent-bg p-4 rounded border-2 border-gray-300">
+          <p class="text-gray-600">Complete the assessments to see recommendations based on risk levels.</p>
+        </div>
+      </div>
+
+      <div class="mb-6">
+        <h3 class="brand-heading text-lg mb-3 brand-primary">Additional Recommendations</h3>
+        <textarea name="additionalRecommendations" placeholder="Add any additional recommendations or modifications specific to this workplace..." class="w-full p-3 border rounded h-32"></textarea>
+      </div>
+
+      <div class="mb-6">
+        <h3 class="brand-heading text-lg mb-3 brand-primary">General Comments</h3>
+        <textarea name="generalComments" placeholder="Any additional observations, limitations of the assessment, or follow-up actions..." class="w-full p-3 border rounded h-32"></textarea>
+      </div>
+
+      <div class="flex gap-4 mt-6">
+        <button type="button" onclick="prevStep()" class="bg-gray-500 text-white p-3 rounded font-semibold hover:bg-gray-600">Previous</button>
+        <button type="button" onclick="nextStep()" class="btn-primary p-3 rounded font-semibold">Continue to Assessor Info</button>
+      </div>
+    </div>
+
+    <!-- Assessor Information -->
+    <div class="step" id="stepAssessor">
+      <h2 class="brand-heading text-xl mb-4 brand-primary">Assessor Information</h2>
+      <div class="grid gap-4 md:grid-cols-2 mb-6">
+        <input type="text" placeholder="Assessor Name" name="assessorName" class="p-3 border rounded" required>
+        <input type="text" placeholder="Assessor Title" name="assessorTitle" class="p-3 border rounded" required>
+        <input type="date" name="assessmentDate" class="p-3 border rounded" required>
+        <div></div>
+      </div>
+
+      <div class="mb-6">
+        <label class="block brand-heading mb-2">Assessor Digital Signature:</label>
+        <canvas id="assessorSignature" class="signature-pad border rounded" width="400" height="150"></canvas>
+        <div class="mt-2">
+          <button type="button" onclick="clearSignature('assessorSignature')" class="bg-gray-500 text-white px-4 py-2 rounded text-sm hover:bg-gray-600">Clear Signature</button>
+        </div>
+      </div>
+
+      <h3 class="brand-heading text-lg mb-3 brand-primary">Verification (Optional)</h3>
+      <p class="text-sm text-gray-600 mb-4">The reviewer can add their details after reviewing the generated PDF report.</p>
+      <div class="grid gap-4 md:grid-cols-2 mb-6">
+        <input type="text" placeholder="Reviewed by (Name) - Optional" name="reviewerName" class="p-3 border rounded">
+        <input type="date" name="reviewerDate" class="p-3 border rounded">
+      </div>
+
+      <div class="mb-6">
+        <label class="block brand-heading mb-2">Reviewer Signature (Optional):</label>
+        <canvas id="reviewerSignature" class="signature-pad border rounded" width="400" height="150"></canvas>
+        <div class="mt-2">
+          <button type="button" onclick="clearSignature('reviewerSignature')" class="bg-gray-500 text-white px-4 py-2 rounded text-sm hover:bg-gray-600">Clear Signature</button>
+        </div>
+      </div>
+
+      <div class="flex gap-4 mt-6">
+        <button type="button" onclick="prevStep()" class="bg-gray-500 text-white p-3 rounded font-semibold hover:bg-gray-600">Previous</button>
+        <button type="button" onclick="generateReport()" class="btn-secondary p-3 rounded font-semibold">Generate PDF Report</button>
+      </div>
+    </div>
+
+  </form>
+</div>
+
+<script>
+let currentStep = 0;
+let totalSteps = 0;
+let selectedAssessments = [];
+let taskCount = 1;
+let assessorSignaturePad, reviewerSignaturePad;
+let savedData = {};
+
+// Simple signature pad implementation
+class SignaturePad {
+  constructor(canvas) {
+    this.canvas = canvas;
+    this.ctx = canvas.getContext('2d');
+    this.drawing = false;
+    this.setupEventListeners();
+  }
+
+  setupEventListeners() {
+    this.canvas.addEventListener('mousedown', (e) => this.startDrawing(e));
+    this.canvas.addEventListener('mousemove', (e) => this.draw(e));
+    this.canvas.addEventListener('mouseup', () => this.stopDrawing());
+    this.canvas.addEventListener('mouseleave', () => this.stopDrawing());
+    this.canvas.addEventListener('touchstart', (e) => {
+      e.preventDefault();
+      this.startDrawing(e.touches[0]);
+    });
+    this.canvas.addEventListener('touchmove', (e) => {
+      e.preventDefault();
+      this.draw(e.touches[0]);
+    });
+    this.canvas.addEventListener('touchend', () => this.stopDrawing());
+  }
+
+  startDrawing(e) {
+    this.drawing = true;
+    const rect = this.canvas.getBoundingClientRect();
+    this.ctx.beginPath();
+    this.ctx.moveTo(e.clientX - rect.left, e.clientY - rect.top);
+  }
+
+  draw(e) {
+    if (!this.drawing) return;
+    const rect = this.canvas.getBoundingClientRect();
+    this.ctx.lineTo(e.clientX - rect.left, e.clientY - rect.top);
+    this.ctx.stroke();
+  }
+
+  stopDrawing() {
+    this.drawing = false;
+  }
+
+  clear() {
+    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+  }
+
+  isEmpty() {
+    const blank = document.createElement('canvas');
+    blank.width = this.canvas.width;
+    blank.height = this.canvas.height;
+    return this.canvas.toDataURL() === blank.toDataURL();
+  }
+
+  toDataURL() {
+    return this.canvas.toDataURL();
+  }
+}
+
+function initSignaturePads() {
+  const assessorCanvas = document.getElementById('assessorSignature');
+  const reviewerCanvas = document.getElementById('reviewerSignature');
+  
+  if (assessorCanvas && !assessorSignaturePad) {
+    assessorSignaturePad = new SignaturePad(assessorCanvas);
+  }
+  if (reviewerCanvas && !reviewerSignaturePad) {
+    reviewerSignaturePad = new SignaturePad(reviewerCanvas);
+  }
+}
+
+function configureAssessment() {
+  const checkboxes = document.querySelectorAll('input[name="assessmentTypes"]:checked');
+  selectedAssessments = Array.from(checkboxes).map(cb => cb.value);
+  taskCount = parseInt(document.getElementById('taskCount').value);
+
+  if (selectedAssessments.length === 0) {
+    alert('Please select at least one assessment type.');
+    return;
+  }
+
+  generateTaskByTaskContent();
+  calculateTotalSteps();
+  nextStep();
+}
+
+function generateTaskByTaskContent() {
+  const existingTaskSteps = document.querySelectorAll('.task-step');
+  existingTaskSteps.forEach(step => step.remove());
+
+  for (let taskNum = 1; taskNum <= taskCount; taskNum++) {
+    createTaskStep(taskNum);
+  }
+}
+
+function createTaskStep(taskNum) {
+  const form = document.getElementById('ergonomicForm');
+  const recommendationsStep = document.getElementById('stepRecommendations');
+  
+  const taskStep = document.createElement('div');
+  taskStep.className = 'step task-step';
+  taskStep.id = `stepTask${taskNum}`;
+  
+  let taskContent = `
+    <h2 class="brand-heading text-xl mb-4 brand-primary">Task ${taskNum} Assessment</h2>
+    
+    <div class="task-section mb-6">
+      <div class="task-header">
+        <h3 class="brand-heading text-lg brand-primary">Task ${taskNum} Description</h3>
+      </div>
+      <div class="p-4">
+        <textarea name="task${taskNum}Description" placeholder="Describe Task ${taskNum} in detail..." class="w-full p-3 border rounded h-32" required></textarea>
+      </div>
+    </div>
+  `;
+
+  if (selectedAssessments.includes('mooreGarg')) {
+    taskContent += generateMooreGargForTask(taskNum);
+  }
+  
+  if (selectedAssessments.includes('reba')) {
+    taskContent += generateREBAForTask(taskNum);
+  }
+  
+  if (selectedAssessments.includes('rula')) {
+    taskContent += generateRULAForTask(taskNum);
+  }
+
+  taskContent += `
+    <div class="flex gap-4 mt-6">
+      <button type="button" onclick="prevStep()" class="bg-gray-500 text-white p-3 rounded font-semibold hover:bg-gray-600">Previous</button>
+      ${taskNum < taskCount ? 
+        `<button type="button" onclick="nextStep()" class="btn-primary p-3 rounded font-semibold">Next Task</button>` :
+        `<button type="button" onclick="nextStep()" class="btn-primary p-3 rounded font-semibold">Complete Assessment</button>`
+      }
+    </div>
+  `;
+
+  taskStep.innerHTML = taskContent;
+  form.insertBefore(taskStep, recommendationsStep);
+}
+
+function generateMooreGargForTask(taskNum) {
+  return `
+    <div class="task-section mb-6">
+      <div class="task-header">
+        <h3 class="brand-heading text-lg brand-primary">Moore-Garg Strain Index Assessment</h3>
+      </div>
+      <div class="p-4">
+        <table class="w-full table-auto border-collapse">
+          <thead>
+            <tr class="brand-accent-bg">
+              <th class="border border-gray-300 p-3 text-left brand-heading">Risk Factor</th>
+              <th class="border border-gray-300 p-3 text-left brand-heading">Rating</th>
+              <th class="border border-gray-300 p-3 text-left brand-heading">Multiplier</th>
+              <th class="border border-gray-300 p-3 text-left brand-heading">Observation</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="border border-gray-300 p-3 brand-heading">Intensity of Exertion</td>
+              <td class="border border-gray-300 p-3">
+                <select name="mg_task${taskNum}_intensity" class="w-full p-2 border rounded" onchange="calculateMooreGarg(${taskNum})">
+                  <option value="1">Light (1)</option>
+                  <option value="3">Somewhat Hard (3)</option>
+                  <option value="6">Hard (6)</option>
+                  <option value="9">Very Hard (9)</option>
+                  <option value="13">Near Maximal (13)</option>
+                </select>
+              </td>
+              <td class="border border-gray-300 p-3" id="mg_task${taskNum}_intensity_mult">1.0</td>
+              <td class="border border-gray-300 p-3">
+                <textarea name="mg_task${taskNum}_intensity_obs" class="w-full p-2 border rounded h-16"></textarea>
+              </td>
+            </tr>
+            <tr>
+              <td class="border border-gray-300 p-3 brand-heading">Duration of Exertion</td>
+              <td class="border border-gray-300 p-3">
+                <select name="mg_task${taskNum}_duration" class="w-full p-2 border rounded" onchange="calculateMooreGarg(${taskNum})">
+                  <option value="0.5">&lt;10% (0.5)</option>
+                  <option value="1">10-29% (1)</option>
+                  <option value="1.5">30-49% (1.5)</option>
+                  <option value="2">50-79% (2)</option>
+                  <option value="3">≥80% (3)</option>
+                </select>
+              </td>
+              <td class="border border-gray-300 p-3" id="mg_task${taskNum}_duration_mult">0.5</td>
+              <td class="border border-gray-300 p-3">
+                <textarea name="mg_task${taskNum}_duration_obs" class="w-full p-2 border rounded h-16"></textarea>
+              </td>
+            </tr>
+            <tr>
+              <td class="border border-gray-300 p-3 brand-heading">Efforts per Minute</td>
+              <td class="border border-gray-300 p-3">
+                <select name="mg_task${taskNum}_efforts" class="w-full p-2 border rounded" onchange="calculateMooreGarg(${taskNum})">
+                  <option value="0.5">&lt;4 (0.5)</option>
+                  <option value="1">4-8 (1)</option>
+                  <option value="1.5">9-14 (1.5)</option>
+                  <option value="2">15-19 (2)</option>
+                  <option value="3">≥20 (3)</option>
+                </select>
+              </td>
+              <td class="border border-gray-300 p-3" id="mg_task${taskNum}_efforts_mult">0.5</td>
+              <td class="border border-gray-300 p-3">
+                <textarea name="mg_task${taskNum}_efforts_obs" class="w-full p-2 border rounded h-16"></textarea>
+              </td>
+            </tr>
+            <tr>
+              <td class="border border-gray-300 p-3 brand-heading">Hand/Wrist Posture</td>
+              <td class="border border-gray-300 p-3">
+                <select name="mg_task${taskNum}_posture" class="w-full p-2 border rounded" onchange="calculateMooreGarg(${taskNum})">
+                  <option value="1">Very Good (1)</option>
+                  <option value="1">Good (1)</option>
+                  <option value="1.5">Fair (1.5)</option>
+                  <option value="2">Bad (2)</option>
+                  <option value="3">Very Bad (3)</option>
+                </select>
+              </td>
+              <td class="border border-gray-300 p-3" id="mg_task${taskNum}_posture_mult">1.0</td>
+              <td class="border border-gray-300 p-3">
+                <textarea name="mg_task${taskNum}_posture_obs" class="w-full p-2 border rounded h-16"></textarea>
+              </td>
+            </tr>
+            <tr>
+              <td class="border border-gray-300 p-3 brand-heading">Speed of Work</td>
+              <td class="border border-gray-300 p-3">
+                <select name="mg_task${taskNum}_speed" class="w-full p-2 border rounded" onchange="calculateMooreGarg(${taskNum})">
+                  <option value="1">Very Slow (1)</option>
+                  <option value="1">Slow (1)</option>
+                  <option value="1">Fair (1)</option>
+                  <option value="1.5">Fast (1.5)</option>
+                  <option value="2">Very Fast (2)</option>
+                </select>
+              </td>
+              <td class="border border-gray-300 p-3" id="mg_task${taskNum}_speed_mult">1.0</td>
+              <td class="border border-gray-300 p-3">
+                <textarea name="mg_task${taskNum}_speed_obs" class="w-full p-2 border rounded h-16"></textarea>
+              </td>
+            </tr>
+            <tr>
+              <td class="border border-gray-300 p-3 brand-heading">Duration per Day</td>
+              <td class="border border-gray-300 p-3">
+                <select name="mg_task${taskNum}_dailyDuration" class="w-full p-2 border rounded" onchange="calculateMooreGarg(${taskNum})">
+                  <option value="0.25">&lt;1 hour (0.25)</option>
+                  <option value="0.5">1-2 hours (0.5)</option>
+                  <option value="0.75">2-4 hours (0.75)</option>
+                  <option value="1">4-8 hours (1)</option>
+                  <option value="1.5">&gt;8 hours (1.5)</option>
+                </select>
+              </td>
+              <td class="border border-gray-300 p-3" id="mg_task${taskNum}_dailyDuration_mult">0.25</td>
+              <td class="border border-gray-300 p-3">
+                <textarea name="mg_task${taskNum}_dailyDuration_obs" class="w-full p-2 border rounded h-16"></textarea>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="mt-4 p-4 brand-accent-bg rounded border-2 border-gray-300">
+          <div class="grid grid-cols-2 gap-4">
+            <div>
+              <strong class="brand-heading">Strain Index Score:</strong> <span id="mg_task${taskNum}_score" class="text-xl font-bold brand-primary">0.5</span>
+            </div>
+            <div>
+              <strong class="brand-heading">Risk Level:</strong> <span id="mg_task${taskNum}_risk" class="text-xl font-bold">Safe</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+function generateREBAForTask(taskNum) {
+  return `
+    <div class="task-section mb-6">
+      <div class="task-header">
+        <h3 class="brand-heading text-lg brand-primary">REBA Assessment</h3>
+      </div>
+      <div class="p-4">
+        <div class="grid gap-6 md:grid-cols-2">
+          <div>
+            <h4 class="brand-heading mb-3">Group A (Trunk, Neck, Legs)</h4>
+            <div class="space-y-3">
+              <div>
+                <label class="block brand-heading mb-1">Trunk Position:</label>
+                <select name="reba_task${taskNum}_trunk" class="w-full p-2 border rounded" onchange="calculateREBA(${taskNum})">
+                  <option value="1">Upright (1)</option>
+                  <option value="2">0-20° flexion/extension (2)</option>
+                  <option value="3">20-60° flexion (3)</option>
+                  <option value="4">&gt;60° flexion (4)</option>
+                </select>
+              </div>
+              <div>
+                <label class="block brand-heading mb-1">Neck Position:</label>
+                <select name="reba_task${taskNum}_neck" class="w-full p-2 border rounded" onchange="calculateREBA(${taskNum})">
+                  <option value="1">0-20° flexion (1)</option>
+                  <option value="2">&gt;20° flexion or extension (2)</option>
+                </select>
+              </div>
+              <div>
+                <label class="block brand-heading mb-1">Leg Position:</label>
+                <select name="reba_task${taskNum}_legs" class="w-full p-2 border rounded" onchange="calculateREBA(${taskNum})">
+                  <option value="1">Bilateral weight bearing (1)</option>
+                  <option value="2">Unilateral weight bearing (2)</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          
+          <div>
+            <h4 class="brand-heading mb-3">Group B (Upper Arms, Lower Arms, Wrists)</h4>
+            <div class="space-y-3">
+              <div>
+                <label class="block brand-heading mb-1">Upper Arm Position:</label>
+                <select name="reba_task${taskNum}_upperArm" class="w-full p-2 border rounded" onchange="calculateREBA(${taskNum})">
+                  <option value="1">20° extension to 20° flexion (1)</option>
+                  <option value="2">&gt;20° extension, 20-45° flexion (2)</option>
+                  <option value="3">45-90° flexion (3)</option>
+                  <option value="4">&gt;90° flexion (4)</option>
+                </select>
+              </div>
+              <div>
+                <label class="block brand-heading mb-1">Lower Arm Position:</label>
+                <select name="reba_task${taskNum}_lowerArm" class="w-full p-2 border rounded" onchange="calculateREBA(${taskNum})">
+                  <option value="1">60-100° flexion (1)</option>
+                  <option value="2">&lt;60° or &gt;100° flexion (2)</option>
+                </select>
+              </div>
+              <div>
+                <label class="block brand-heading mb-1">Wrist Position:</label>
+                <select name="reba_task${taskNum}_wrist" class="w-full p-2 border rounded" onchange="calculateREBA(${taskNum})">
+                  <option value="1">0-15° flexion/extension (1)</option>
+                  <option value="2">&gt;15° flexion/extension (2)</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-6">
+          <h4 class="brand-heading mb-3">Additional Factors</h4>
+          <div class="grid gap-4 md:grid-cols-3">
+            <div>
+              <label class="block brand-heading mb-1">Load/Force:</label>
+              <p class="text-sm text-gray-600 mb-2">Weight being lifted, carried, or force applied</p>
+              <select name="reba_task${taskNum}_load" class="w-full p-2 border rounded" onchange="calculateREBA(${taskNum})">
+                <option value="0">&lt;5kg (0)</option>
+                <option value="1">5-10kg (1)</option>
+                <option value="2">&gt;10kg (2)</option>
+                <option value="3">Shock/rapid build up (3)</option>
+              </select>
+            </div>
+            <div>
+              <label class="block brand-heading mb-1">Coupling:</label>
+              <p class="text-sm text-gray-600 mb-2">Quality of hand grip</p>
+              <select name="reba_task${taskNum}_coupling" class="w-full p-2 border rounded" onchange="calculateREBA(${taskNum})">
+                <option value="0">Good (0)</option>
+                <option value="1">Fair (1)</option>
+                <option value="2">Poor (2)</option>
+              </select>
+            </div>
+            <div>
+              <label class="block brand-heading mb-1">Activity:</label>
+              <p class="text-sm text-gray-600 mb-2">Type of muscle activity</p>
+              <select name="reba_task${taskNum}_activity" class="w-full p-2 border rounded" onchange="calculateREBA(${taskNum})">
+                <option value="0">Static &lt;1min (0)</option>
+                <option value="1">Static &gt;1min (1)</option>
+                <option value="1">Repeated (1)</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-4 p-4 brand-accent-bg rounded border-2 border-gray-300">
+          <div class="grid grid-cols-2 gap-4">
+            <div>
+              <strong class="brand-heading">REBA Score:</strong> <span id="reba_task${taskNum}_score" class="text-xl font-bold brand-primary">1</span>
+            </div>
+            <div>
+              <strong class="brand-heading">Risk Level:</strong> <span id="reba_task${taskNum}_risk" class="text-xl font-bold">Negligible</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+function generateRULAForTask(taskNum) {
+  return `
+    <div class="task-section mb-6">
+      <div class="task-header">
+        <h3 class="brand-heading text-lg brand-primary">RULA Assessment</h3>
+      </div>
+      <div class="p-4">
+        <div class="grid gap-6 md:grid-cols-2">
+          <div>
+            <h4 class="brand-heading mb-3">Group A (Arm and Wrist)</h4>
+            <div class="space-y-3">
+              <div>
+                <label class="block brand-heading mb-1">Upper Arm Position:</label>
+                <select name="rula_task${taskNum}_upperArm" class="w-full p-2 border rounded" onchange="calculateRULA(${taskNum})">
+                  <option value="1">20° extension to 20° flexion (1)</option>
+                  <option value="2">&gt;20° extension or 20-45° flexion (2)</option>
+                  <option value="3">45-90° flexion (3)</option>
+                  <option value="4">&gt;90° flexion (4)</option>
+                </select>
+              </div>
+              <div>
+                <label class="block brand-heading mb-1">Lower Arm Position:</label>
+                <select name="rula_task${taskNum}_lowerArm" class="w-full p-2 border rounded" onchange="calculateRULA(${taskNum})">
+                  <option value="1">60-100° flexion (1)</option>
+                  <option value="2">&lt;60° or &gt;100° flexion (2)</option>
+                </select>
+              </div>
+              <div>
+                <label class="block brand-heading mb-1">Wrist Position:</label>
+                <select name="rula_task${taskNum}_wrist" class="w-full p-2 border rounded" onchange="calculateRULA(${taskNum})">
+                  <option value="1">Neutral (1)</option>
+                  <option value="2">0-15° flexion/extension (2)</option>
+                  <option value="3">&gt;15° flexion/extension (3)</option>
+                </select>
+              </div>
+              <div>
+                <label class="block brand-heading mb-1">Wrist Twist:</label>
+                <select name="rula_task${taskNum}_wristTwist" class="w-full p-2 border rounded" onchange="calculateRULA(${taskNum})">
+                  <option value="1">Mid range (1)</option>
+                  <option value="2">At end of range (2)</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          
+          <div>
+            <h4 class="brand-heading mb-3">Group B (Neck, Trunk, Legs)</h4>
+            <div class="space-y-3">
+              <div>
+                <label class="block brand-heading mb-1">Neck Position:</label>
+                <select name="rula_task${taskNum}_neck" class="w-full p-2 border rounded" onchange="calculateRULA(${taskNum})">
+                  <option value="1">0-10° flexion (1)</option>
+                  <option value="2">10-20° flexion (2)</option>
+                  <option value="3">&gt;20° flexion (3)</option>
+                  <option value="4">Extension (4)</option>
+                </select>
+              </div>
+              <div>
+                <label class="block brand-heading mb-1">Trunk Position:</label>
+                <select name="rula_task${taskNum}_trunk" class="w-full p-2 border rounded" onchange="calculateRULA(${taskNum})">
+                  <option value="1">Well supported (1)</option>
+                  <option value="2">0-10° flexion (2)</option>
+                  <option value="3">10-20° flexion (3)</option>
+                  <option value="4">&gt;20° flexion (4)</option>
+                </select>
+              </div>
+              <div>
+                <label class="block brand-heading mb-1">Legs:</label>
+                <select name="rula_task${taskNum}_legs" class="w-full p-2 border rounded" onchange="calculateRULA(${taskNum})">
+                  <option value="1">Well supported (1)</option>
+                  <option value="2">Not well supported (2)</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-6">
+          <h4 class="brand-heading mb-3">Additional Factors</h4>
+          <div class="grid gap-4 md:grid-cols-2">
+            <div>
+              <label class="block brand-heading mb-1">Muscle Use:</label>
+              <p class="text-sm text-gray-600 mb-2">Type of muscle contractions</p>
+              <select name="rula_task${taskNum}_muscle" class="w-full p-2 border rounded" onchange="calculateRULA(${taskNum})">
+                <option value="0">Occasional (0)</option>
+                <option value="1">Repeated (1)</option>
+              </select>
+            </div>
+            <div>
+              <label class="block brand-heading mb-1">Force/Load:</label>
+              <p class="text-sm text-gray-600 mb-2">Force required</p>
+              <select name="rula_task${taskNum}_force" class="w-full p-2 border rounded" onchange="calculateRULA(${taskNum})">
+                <option value="0">&lt;2kg intermittent (0)</option>
+                <option value="1">2-10kg (1)</option>
+                <option value="2">&gt;10kg (2)</option>
+                <option value="3">Static &gt;2kg (3)</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-4 p-4 brand-accent-bg rounded border-2 border-gray-300">
+          <div class="grid grid-cols-2 gap-4">
+            <div>
+              <strong class="brand-heading">RULA Score:</strong> <span id="rula_task${taskNum}_score" class="text-xl font-bold brand-primary">1</span>
+            </div>
+            <div>
+              <strong class="brand-heading">Action Level:</strong> <span id="rula_task${taskNum}_action" class="text-xl font-bold">Acceptable</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+function calculateMooreGarg(taskNum) {
+  const intensity = parseFloat(document.querySelector(`select[name="mg_task${taskNum}_intensity"]`).value);
+  const duration = parseFloat(document.querySelector(`select[name="mg_task${taskNum}_duration"]`).value);
+  const efforts = parseFloat(document.querySelector(`select[name="mg_task${taskNum}_efforts"]`).value);
+  const posture = parseFloat(document.querySelector(`select[name="mg_task${taskNum}_posture"]`).value);
+  const speed = parseFloat(document.querySelector(`select[name="mg_task${taskNum}_speed"]`).value);
+  const dailyDuration = parseFloat(document.querySelector(`select[name="mg_task${taskNum}_dailyDuration"]`).value);
+
+  document.getElementById(`mg_task${taskNum}_intensity_mult`).textContent = intensity.toFixed(1);
+  document.getElementById(`mg_task${taskNum}_duration_mult`).textContent = duration.toFixed(1);
+  document.getElementById(`mg_task${taskNum}_efforts_mult`).textContent = efforts.toFixed(1);
+  document.getElementById(`mg_task${taskNum}_posture_mult`).textContent = posture.toFixed(1);
+  document.getElementById(`mg_task${taskNum}_speed_mult`).textContent = speed.toFixed(1);
+  document.getElementById(`mg_task${taskNum}_dailyDuration_mult`).textContent = dailyDuration.toFixed(2);
+
+  const strainIndex = intensity * duration * efforts * posture * speed * dailyDuration;
+  document.getElementById(`mg_task${taskNum}_score`).textContent = strainIndex.toFixed(1);
+
+  let riskLevel, riskColor;
+  if (strainIndex <= 3) {
+    riskLevel = 'Safe';
+    riskColor = 'text-green-600';
+  } else if (strainIndex <= 7) {
+    riskLevel = 'Uncertain';
+    riskColor = 'text-yellow-600';
+  } else {
+    riskLevel = 'Hazardous';
+    riskColor = 'text-red-600';
+  }
+
+  const riskElement = document.getElementById(`mg_task${taskNum}_risk`);
+  riskElement.textContent = riskLevel;
+  riskElement.className = `text-xl brand-heading ${riskColor}`;
+}
+
+function calculateREBA(taskNum) {
+  const trunk = parseInt(document.querySelector(`select[name="reba_task${taskNum}_trunk"]`).value);
+  const neck = parseInt(document.querySelector(`select[name="reba_task${taskNum}_neck"]`).value);
+  const legs = parseInt(document.querySelector(`select[name="reba_task${taskNum}_legs"]`).value);
+  const upperArm = parseInt(document.querySelector(`select[name="reba_task${taskNum}_upperArm"]`).value);
+  const lowerArm = parseInt(document.querySelector(`select[name="reba_task${taskNum}_lowerArm"]`).value);
+  const wrist = parseInt(document.querySelector(`select[name="reba_task${taskNum}_wrist"]`).value);
+  const load = parseInt(document.querySelector(`select[name="reba_task${taskNum}_load"]`).value);
+  const coupling = parseInt(document.querySelector(`select[name="reba_task${taskNum}_coupling"]`).value);
+  const activity = parseInt(document.querySelector(`select[name="reba_task${taskNum}_activity"]`).value);
+
+  const groupA = Math.max(trunk, neck, legs);
+  const groupB = Math.max(upperArm, lowerArm, wrist);
+  const rebaScore = Math.min(15, groupA + groupB + load + coupling + activity);
+
+  document.getElementById(`reba_task${taskNum}_score`).textContent = rebaScore;
+
+  let riskLevel, riskColor;
+  if (rebaScore === 1) {
+    riskLevel = 'Negligible';
+    riskColor = 'text-green-600';
+  } else if (rebaScore <= 3) {
+    riskLevel = 'Low';
+    riskColor = 'text-yellow-600';
+  } else if (rebaScore <= 7) {
+    riskLevel = 'Medium';
+    riskColor = 'text-orange-600';
+  } else if (rebaScore <= 10) {
+    riskLevel = 'High';
+    riskColor = 'text-red-600';
+  } else {
+    riskLevel = 'Very High';
+    riskColor = 'text-red-800';
+  }
+
+  const riskElement = document.getElementById(`reba_task${taskNum}_risk`);
+  riskElement.textContent = riskLevel;
+  riskElement.className = `text-xl brand-heading ${riskColor}`;
+}
+
+function calculateRULA(taskNum) {
+  const upperArm = parseInt(document.querySelector(`select[name="rula_task${taskNum}_upperArm"]`).value);
+  const lowerArm = parseInt(document.querySelector(`select[name="rula_task${taskNum}_lowerArm"]`).value);
+  const wrist = parseInt(document.querySelector(`select[name="rula_task${taskNum}_wrist"]`).value);
+  const wristTwist = parseInt(document.querySelector(`select[name="rula_task${taskNum}_wristTwist"]`).value);
+  const neck = parseInt(document.querySelector(`select[name="rula_task${taskNum}_neck"]`).value);
+  const trunk = parseInt(document.querySelector(`select[name="rula_task${taskNum}_trunk"]`).value);
+  const legs = parseInt(document.querySelector(`select[name="rula_task${taskNum}_legs"]`).value);
+  const muscle = parseInt(document.querySelector(`select[name="rula_task${taskNum}_muscle"]`).value);
+  const force = parseInt(document.querySelector(`select[name="rula_task${taskNum}_force"]`).value);
+
+  const groupA = Math.max(upperArm, lowerArm, wrist, wristTwist);
+  const groupB = Math.max(neck, trunk, legs);
+  const rulaScore = Math.min(7, groupA + groupB + muscle + force);
+
+  document.getElementById(`rula_task${taskNum}_score`).textContent = rulaScore;
+
+  let actionLevel, actionColor;
+  if (rulaScore <= 2) {
+    actionLevel = 'Acceptable';
+    actionColor = 'text-green-600';
+  } else if (rulaScore <= 4) {
+    actionLevel = 'Investigate';
+    actionColor = 'text-yellow-600';
+  } else if (rulaScore <= 6) {
+    actionLevel = 'Investigate Soon';
+    actionColor = 'text-orange-600';
+  } else {
+    actionLevel = 'Investigate Now';
+    actionColor = 'text-red-600';
+  }
+
+  const actionElement = document.getElementById(`rula_task${taskNum}_action`);
+  actionElement.textContent = actionLevel;
+  actionElement.className = `text-xl brand-heading ${actionColor}`;
+}
+
+function generateAutoRecommendations() {
+  let recommendations = [];
+  let hasTaskSpecificRecs = false;
+  
+  for (let taskNum = 1; taskNum <= taskCount; taskNum++) {
+    const taskDesc = document.querySelector(`textarea[name="task${taskNum}Description"]`)?.value || `Task ${taskNum}`;
+    
+    if (selectedAssessments.includes('mooreGarg')) {
+      const mgRiskElement = document.getElementById(`mg_task${taskNum}_risk`);
+      const mgRisk = mgRiskElement ? mgRiskElement.textContent : 'Safe';
+      if (mgRisk === 'Hazardous') {
+        hasTaskSpecificRecs = true;
+        recommendations.push(`<strong>${taskDesc}:</strong> HIGH PRIORITY - Immediate intervention required. Consider job rotation, reduce repetition frequency, improve hand/wrist postures, and implement engineering controls.`);
+      } else if (mgRisk === 'Uncertain') {
+        hasTaskSpecificRecs = true;
+        recommendations.push(`<strong>${taskDesc}:</strong> Monitor closely and consider modifications to reduce strain index. Implement regular breaks and posture training.`);
+      }
+    }
+    
+    if (selectedAssessments.includes('reba')) {
+      const rebaRiskElement = document.getElementById(`reba_task${taskNum}_risk`);
+      const rebaRisk = rebaRiskElement ? rebaRiskElement.textContent : 'Negligible';
+      if (rebaRisk === 'Very High') {
+        hasTaskSpecificRecs = true;
+        recommendations.push(`<strong>${taskDesc}:</strong> URGENT - Implement changes immediately. Consider mechanical aids, workstation redesign, and task modification.`);
+      } else if (rebaRisk === 'High') {
+        hasTaskSpecificRecs = true;
+        recommendations.push(`<strong>${taskDesc}:</strong> Investigate and implement changes soon. Focus on reducing trunk flexion and improving load handling.`);
+      } else if (rebaRisk === 'Medium') {
+        hasTaskSpecificRecs = true;
+        recommendations.push(`<strong>${taskDesc}:</strong> Further investigation needed. Consider ergonomic training and minor workstation adjustments.`);
+      }
+    }
+    
+    if (selectedAssessments.includes('rula')) {
+      const rulaActionElement = document.getElementById(`rula_task${taskNum}_action`);
+      const rulaAction = rulaActionElement ? rulaActionElement.textContent : 'Acceptable';
+      if (rulaAction === 'Investigate Now') {
+        hasTaskSpecificRecs = true;
+        recommendations.push(`<strong>${taskDesc}:</strong> Immediate detailed investigation required. Implement changes to reduce upper limb loading.`);
+      } else if (rulaAction === 'Investigate Soon') {
+        hasTaskSpecificRecs = true;
+        recommendations.push(`<strong>${taskDesc}:</strong> Further investigation and changes required soon. Focus on arm and wrist positioning.`);
+      } else if (rulaAction === 'Investigate') {
+        hasTaskSpecificRecs = true;
+        recommendations.push(`<strong>${taskDesc}:</strong> Some investigation required. Monitor and consider minor improvements.`);
+      }
+    }
+  }
+  
+  if (hasTaskSpecificRecs) {
+    recommendations.push('<br><strong>General Recommendations:</strong>');
+  } else {
+    recommendations.push('<strong>General Recommendations:</strong>');
+  }
+  
+  recommendations.push('• <strong>20-20-20 Rule:</strong> Every 20 minutes, look at something 20 feet away for at least 20 seconds');
+  recommendations.push('• <strong>Micro-breaks:</strong> Take 30-second breaks every 10 minutes to stretch');
+  recommendations.push('• Provide comprehensive ergonomic training');
+  recommendations.push('• Encourage early discomfort reporting');
+  recommendations.push('• Consider job rotation programs');
+  recommendations.push('• Maintain neutral postures');
+  
+  const autoRecommendationsDiv = document.getElementById('autoRecommendations');
+  autoRecommendationsDiv.innerHTML = recommendations.map(rec => `<p class="mb-2">${rec}</p>`).join('');
+}
+
+function calculateTotalSteps() {
+  const steps = ['step1', 'step0'];
+  for (let i = 1; i <= taskCount; i++) {
+    steps.push(`stepTask${i}`);
+  }
+  steps.push('stepRecommendations', 'stepAssessor');
+  totalSteps = steps.length;
+}
+
+function nextStep() {
+  const steps = document.querySelectorAll('.step');
+  if (currentStep < steps.length - 1) {
+    steps[currentStep].classList.remove('active');
+    currentStep++;
+    
+    while (currentStep < steps.length && !isStepActive(steps[currentStep].id)) {
+      currentStep++;
+    }
+    
+    if (currentStep < steps.length) {
+      steps[currentStep].classList.add('active');
+      window.scrollTo(0, 0);
+      
+      if (steps[currentStep].id === 'stepRecommendations') {
+        generateAutoRecommendations();
+      }
+      
+      if (steps[currentStep].id === 'stepAssessor') {
+        setTimeout(initSignaturePads, 100);
+      }
+    }
+  }
+}
+
+function prevStep() {
+  const steps = document.querySelectorAll('.step');
+  if (currentStep > 0) {
+    steps[currentStep].classList.remove('active');
+    currentStep--;
+    
+    while (currentStep >= 0 && !isStepActive(steps[currentStep].id)) {
+      currentStep--;
+    }
+    
+    if (currentStep >= 0) {
+      steps[currentStep].classList.add('active');
+      window.scrollTo(0, 0);
+    }
+  }
+}
+
+function isStepActive(stepId) {
+  if (stepId === 'step1' || stepId === 'step0' || stepId === 'stepRecommendations' || stepId === 'stepAssessor') {
+    return true;
+  }
+  if (stepId.startsWith('stepTask')) {
+    return true;
+  }
+  return false;
+}
+
+function clearSignature(canvasId) {
+  if (canvasId === 'assessorSignature' && assessorSignaturePad) {
+    assessorSignaturePad.clear();
+  } else if (canvasId === 'reviewerSignature' && reviewerSignaturePad) {
+    reviewerSignaturePad.clear();
+  }
+}
+
+function saveProgress() {
+  const formData = new FormData(document.getElementById('ergonomicForm'));
+  const data = Object.fromEntries(formData.entries());
+  data.selectedAssessments = selectedAssessments;
+  data.taskCount = taskCount;
+  
+  savedData = data;
+  alert('Progress saved successfully!');
+}
+
+function startFresh() {
+  if (confirm('Are you sure you want to start fresh? All current data will be lost.')) {
+    savedData = {};
+    location.reload();
+  }
+}
+
+function generateReport() {
+  try {
+    if (typeof window.jspdf === 'undefined') {
+      alert('PDF library is still loading. Please wait a moment and try again.');
+      return;
+    }
+
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
+    
+    const formData = new FormData(document.getElementById('ergonomicForm'));
+    const data = Object.fromEntries(formData.entries());
+    
+    let yPos = 20;
+    
+    doc.setFontSize(20);
+    doc.setTextColor(0, 114, 206);
+    doc.text('Fresh Frontiers Consultancy', 20, yPos);
+    yPos += 10;
+    doc.setFontSize(16);
+    doc.text('Ergonomic Assessment Report', 20, yPos);
+    yPos += 20;
+    
+    doc.setFontSize(14);
+    doc.setTextColor(0, 0, 0);
+    doc.text('Client Information:', 20, yPos);
+    yPos += 10;
+    
+    doc.setFontSize(10);
+    doc.text(`Name: ${data.name || 'N/A'}`, 20, yPos);
+    doc.text(`Email: ${data.email || 'N/A'}`, 120, yPos);
+    yPos += 7;
+    doc.text(`Contact: ${data.contactNumber || 'N/A'}`, 20, yPos);
+    doc.text(`Job Title: ${data.jobTitle || 'N/A'}`, 120, yPos);
+    yPos += 15;
+    
+    doc.setFontSize(14);
+    doc.text('Assessment Results:', 20, yPos);
+    yPos += 15;
+    
+    for (let taskNum = 1; taskNum <= taskCount; taskNum++) {
+      doc.setFontSize(12);
+      const taskDesc = data[`task${taskNum}Description`] || 'No description';
+      const lines = doc.splitTextToSize(`Task ${taskNum}: ${taskDesc}`, 170);
+      doc.text(lines, 20, yPos);
+      yPos += lines.length * 5 + 5;
+      
+      if (selectedAssessments.includes('mooreGarg')) {
+        const score = document.getElementById(`mg_task${taskNum}_score`)?.textContent || 'N/A';
+        const risk = document.getElementById(`mg_task${taskNum}_risk`)?.textContent || 'N/A';
+        doc.setFontSize(10);
+        doc.text(`Moore-Garg: ${score} (${risk})`, 30, yPos);
+        yPos += 7;
+      }
+      
+      if (selectedAssessments.includes('reba')) {
+        const score = document.getElementById(`reba_task${taskNum}_score`)?.textContent || 'N/A';
+        const risk = document.getElementById(`reba_task${taskNum}_risk`)?.textContent || 'N/A';
+        doc.text(`REBA: ${score} (${risk})`, 30, yPos);
+        yPos += 7;
+      }
+      
+      if (selectedAssessments.includes('rula')) {
+        const score = document.getElementById(`rula_task${taskNum}_score`)?.textContent || 'N/A';
+        const action = document.getElementById(`rula_task${taskNum}_action`)?.textContent || 'N/A';
+        doc.text(`RULA: ${score} (${action})`, 30, yPos);
+        yPos += 7;
+      }
+      
+      yPos += 5;
+      
+      if (yPos > 250) {
+        doc.addPage();
+        yPos = 20;
+      }
+    }
+    
+    yPos += 10;
+    doc.setFontSize(14);
+    doc.text('Recommendations:', 20, yPos);
+    yPos += 10;
+    
+    const autoRecs = document.getElementById('autoRecommendations').innerText;
+    if (autoRecs && autoRecs.trim() !== 'Complete the assessments to see recommendations based on risk levels.') {
+      doc.setFontSize(9);
+      const recLines = doc.splitTextToSize(autoRecs, 170);
+      doc.text(recLines, 20, yPos);
+      yPos += Math.min(recLines.length * 4, 80);
+    }
+    
+    if (yPos > 220) {
+      doc.addPage();
+      yPos = 20;
+    }
+    
+    if (data.additionalRecommendations) {
+      doc.setFontSize(12);
+      doc.text('Additional Recommendations:', 20, yPos);
+      yPos += 7;
+      doc.setFontSize(9);
+      const addRecLines = doc.splitTextToSize(data.additionalRecommendations, 170);
+      doc.text(addRecLines, 20, yPos);
+      yPos += addRecLines.length * 4 + 10;
+    }
+    
+    if (data.generalComments) {
+      if (yPos > 230) {
+        doc.addPage();
+        yPos = 20;
+      }
+      doc.setFontSize(12);
+      doc.text('General Comments:', 20, yPos);
+      yPos += 7;
+      doc.setFontSize(9);
+      const commentLines = doc.splitTextToSize(data.generalComments, 170);
+      doc.text(commentLines, 20, yPos);
+      yPos += commentLines.length * 4 + 10;
+    }
+    
+    if (yPos > 200) {
+      doc.addPage();
+      yPos = 20;
+    }
+    
+    yPos += 10;
+    doc.setFontSize(14);
+    doc.text('Assessor Information:', 20, yPos);
+    yPos += 10;
+    
+    doc.setFontSize(10);
+    doc.text(`Assessor: ${data.assessorName || 'N/A'}`, 20, yPos);
+    doc.text(`Title: ${data.assessorTitle || 'N/A'}`, 120, yPos);
+    yPos += 7;
+    doc.text(`Date: ${data.assessmentDate || 'N/A'}`, 20, yPos);
+    yPos += 15;
+    
+    if (assessorSignaturePad && !assessorSignaturePad.isEmpty()) {
+      doc.text('Assessor Signature:', 20, yPos);
+      try {
+        const signatureData = assessorSignaturePad.toDataURL();
+        doc.addImage(signatureData, 'PNG', 20, yPos + 5, 60, 20);
+        yPos += 30;
+      } catch (e) {
+        console.warn('Could not add assessor signature');
+        yPos += 10;
+      }
+    }
+    
+    if (data.reviewerName) {
+      doc.text(`Reviewed by: ${data.reviewerName}`, 20, yPos);
+      doc.text(`Date: ${data.reviewerDate || 'N/A'}`, 120, yPos);
+      yPos += 10;
+      
+      if (reviewerSignaturePad && !reviewerSignaturePad.isEmpty()) {
+        doc.text('Reviewer Signature:', 20, yPos);
+        try {
+          const reviewerSignatureData = reviewerSignaturePad.toDataURL();
+          doc.addImage(reviewerSignatureData, 'PNG', 20, yPos + 5, 60, 20);
+        } catch (e) {
+          console.warn('Could not add reviewer signature');
+        }
+      }
+    }
+    
+    const fileName = `Ergonomic_Assessment_${data.name || 'Report'}_${new Date().toISOString().split('T')[0]}.pdf`;
+    doc.save(fileName);
+    
+    alert('PDF report generated successfully!');
+    
+  } catch (error) {
+    console.error('PDF generation error:', error);
+    alert('Error generating PDF: ' + error.message);
+  }
+}
+
+window.addEventListener('load', function() {
+  const today = new Date().toISOString().split('T')[0];
+  const dateInput = document.querySelector('input[name="assessmentDate"]');
+  if (dateInput) {
+    dateInput.value = today;
+  }
+});
+</script>
+
+</body>
+</html>
